@@ -1,0 +1,44 @@
+Resume Builder
+
+Springboot theymeleaf H2DB later mysql deployed on aws elastic bean stack
+
+https://github.com/koushikkothagal/resume-portal
+
+as we included spring security, it automatically generates password. Look on console.
+
+http://localhost:8080/login has a default login. Try with "user"/"password from console"
+
+Have a HomeController class with @RestController and and a method with @GetMapping. 
+Should be able to see on browser after login
+
+As we included H2 dependency, database already got configured/avbl. See the logs
+H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:2c8cd797-465e-4ae1-8cc9-ef2f32323db9'
+
+Create a Model User with @Entity and @Table(name="user") attributes. JPA creates a table in table automatically.
+@Id will make a primary key
+
+Creating an interface extending JpaRepository of type User, which we defined as Model mapped to table,
+Spring will implement all the methods init. Have to fallowing naming convention
+ Optional<User> findByUserName(String userName);
+ 
+Also need to make the main application @EnableJpaRepositories, for JPA 
+@EnableJpaRepositories(basePackageClasses = UserRepository.class)
+
+===========================================
+Spring JPA during booting, run two sql files if they found in rosources folder
+1)schema.sql to create any object etc 2)data.sql to load seed data
+
+JPA when model class mapped to a table, field names with camelCase be replace with _ 
+meaning, userName gets mapped user_name
+
+start chapter Mapping User Details Service for Spring Security
+===
+
+Define a new service MyUserDetailsService, which implements spring security service called UserDetailsService, which has a method loadUserByUsername
+Spring security always calls this method, so we have to provide the implementation of this method, by reading database or AD or other auth datasource
+The user we found by JPA is our own class. Spring Security wouldn't know what "User.java" is. So, have another class MyUserDetails which implements Spring Security UserDetails.
+And Map our User.java to Spring UserDetails with map method
+getAuthorities is a method to override, with list of roles. In this example, we save in database a comma separated roles as admin,user etc., So, we split them up make a new SimpleGrantedAuthority and map it. (understand the new syntax)
+
+=============
+Security Configuration

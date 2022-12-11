@@ -1,20 +1,29 @@
 package com.mywon.resumeportal.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "USER_TABLE")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name="USER_NAME")
     private String userName;
+
+    @Column(name="PASSWORD")
     private String password;
+
+    @Column(name="ACTIVE")
     private boolean active;
+
+    @Column(name="ROLES")
     private String roles;
 
     public int getId() {
