@@ -42,3 +42,26 @@ getAuthorities is a method to override, with list of roles. In this example, we 
 
 =============
 Security Configuration
+
+=====
+
+copied pom.xml from github resume builder code base, so that needed libraries get copied and WebSecurityConfigurerAdapter is avbl
+H2 still doesn't work gives error - jdbc url to be defined
+so, copied applicaiton properteis from aother CRUD applcation. 
+There is a line to be added to props, to be able load data.sql
+
+=========
+ADDING VIEW PAGE
+
+change HomeController as a @Controller rather @RestController.
+
+@Controller, looks for the template with name it returns for presentation
+@RestController mainly for REST calls only.
+Look for @GetMapping syntax "/view{userId}"
+		 @PathVariable - if variable same it maps automatically. Otherwise
+		 @PathVariable("userId") String aaa
+spring model, is param that can be passed to any getMapping function. Which can hold attributes and be presented on GUI		 
+
+
+
+
