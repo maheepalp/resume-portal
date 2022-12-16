@@ -1,6 +1,8 @@
 package com.mywon.resumeportal.models;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -71,6 +73,13 @@ public class Job {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getFormatedStartDate(){
+        return startDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    }
+    public String getFormatedEndDate(){
+        return endDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
     }
 
 }
