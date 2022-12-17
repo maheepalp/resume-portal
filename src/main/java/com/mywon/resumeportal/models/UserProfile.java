@@ -28,10 +28,14 @@ public class UserProfile {
     private String phone;
     private String designation;
 
-    @OneToMany(cascade = CascadeType.MERGE,
-        orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "job_id")
     List<Job> jobs = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "job_id")
+    List<Education> educations = new ArrayList<>();
+
 
     @Override
     public String toString() {
@@ -128,6 +132,14 @@ public class UserProfile {
 
     public void setDesignation(String designation) {
         this.designation = designation;
+    }
+
+    public List<Education> getEducations() {
+        return this.educations;
+    }
+
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
     }
 
     

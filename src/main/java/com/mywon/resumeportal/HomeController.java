@@ -2,7 +2,7 @@ package com.mywon.resumeportal;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.mywon.resumeportal.models.Education;
 import com.mywon.resumeportal.models.Job;
 import com.mywon.resumeportal.models.UserProfile;
 
@@ -22,6 +23,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(){
+
+        Optional<UserProfile> opt = userProfileRepository.findByUserName("newton");
+        opt.orElseThrow(() -> new RuntimeException("newton not found"));
+
+         UserProfile profile1 = opt.get();
         // UserProfile profile1 = new UserProfile();
         // profile1.setId(1);
         // profile1.setDesignation("profile designation");
@@ -30,24 +36,52 @@ public class HomeController {
         // profile1.setLastName("Last Name");
         // profile1.setTheme(1);
 
-        // Job job1 = new Job();
-        // job1.setCompany("company 1");
-        // job1.setDesignation("designation 1");
-        // job1.setId(1);
-        // job1.setStartDate(LocalDate.of(2020, 1,1));
-        // job1.setEndDate(LocalDate.of(2020, 3,17));
+        Job job1 = new Job();
+        job1.setCompany("company ONE");
+        job1.setDesignation("designation ONE");
+        job1.setId(1);
+        job1.setStartDate(LocalDate.of(2020, 1,1));
+        job1.setEndDate(LocalDate.of(2020, 3,17));
 
-        // Job job2 = new Job();
-        // job2.setCompany("company 2");
-        // job2.setDesignation("designation 2");
-        // job2.setId(2);
-        // job2.setStartDate(LocalDate.of(2022, 1,1));
-        // job2.setEndDate(LocalDate.of(2022, 3,17));
-        
+        job1.getResponsibilities().add("Responsibiltiy");
+        job1.getResponsibilities().add("Resp");
+
+        Job job2 = new Job();
+        job2.setCompany("company TWO");
+        job2.setDesignation("designation TWO");
+        job2.setId(2);
+        job2.setStartDate(LocalDate.of(2022, 1,1));
+        job2.setEndDate(LocalDate.of(2022, 3,17));
+        job2.getResponsibilities().add("Other Resp");
+        job2.getResponsibilities().add("Resp two");
+
+        List<Job> jobs = new ArrayList<Job>();
+        jobs.clear();
+        jobs.add(job1); jobs.add(job2);
+        profile1.setJobs(jobs);
 
         // profile1.setJobs(Arrays.asList(job1,job2));
 
-        // userProfileRepository.save(profile1);
+
+        Education e1 = new Education();
+        e1.setCollege("Osmania");
+        e1.setCourse("Physics");
+        e1.setStartDate(LocalDate.of(2022, 1,1));
+        e1.setEndDate(LocalDate.of(2022, 3,17));
+
+        Education e2 = new Education();
+        e2.setCollege("Kakatiya");
+        e2.setCourse("Maths");
+        e2.setStartDate(LocalDate.of(2012, 1,1));
+        e2.setEndDate(LocalDate.of(2015, 8,7));
+        List<Education> eds = new ArrayList<>();
+        eds.clear();
+        eds.add(e1); eds.add(e2);
+
+        profile1.setEducations(eds);
+        
+        userProfileRepository.save(profile1);
+        System.out.println("jobs created for newton");
         
         return "Hello!!";
 

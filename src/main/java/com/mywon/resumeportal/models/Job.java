@@ -3,7 +3,10 @@ package com.mywon.resumeportal.models;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,18 +24,18 @@ public class Job {
     private String designation;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    @ElementCollection(targetClass=String.class)
+    private List<String> responsibilities = new ArrayList<>();
     
 
 
-    @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", company='" + getCompany() + "'" +
-            ", designation='" + getDesignation() + "'" +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
-            "}";
+    public List<String> getResponsibilities() {
+        return this.responsibilities;
+    }
+
+    public void setResponsibilities(List<String> responsibilities) {
+        this.responsibilities = responsibilities;
     }
 
     public int getId() {
@@ -80,6 +83,18 @@ public class Job {
     }
     public String getFormatedEndDate(){
         return endDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", company='" + getCompany() + "'" +
+            ", designation='" + getDesignation() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", responsibilities='" + getResponsibilities() + "'" +
+            "}";
     }
 
 }

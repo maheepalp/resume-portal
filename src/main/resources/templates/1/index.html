@@ -109,6 +109,9 @@
 								<h2><span th:text="${job.company}">Facebook</span></h2>
 								<h3><span th:text="${job.formatedStartDate}">Senior Interface Designer</span>&nbsp;<span th:text="${job.formatedEndDate}">2005-2007</span></h4>
 								<p>Intrinsicly enable optimal core competencies through corporate relationships. Phosfluorescently implement worldwide vortals and client-focused imperatives. Conveniently initiate virtual paradigms and top-line convergence. </p>
+								<ul th:each="resp: ${job.responsibilities}">
+									<li th:text="${resp}">Respon</li>
+								</ul>
 							</div>
 
 						</div><!--// .yui-u -->
@@ -119,9 +122,10 @@
 						<div class="yui-u first">
 							<h2>Education</h2>
 						</div>
-						<div class="yui-u">
-							<h2>Indiana University - Bloomington, Indiana</h2>
-							<h3>Dual Major, Economics and English &mdash; <strong>4.0 GPA</strong> </h3>
+						<div class="yui-u" th:each="ed: ${userProfile.educations}">
+							<h2 th:text="${ed.college}">Indiana University - Bloomington, Indiana</h2>
+							<h3 th:text="${ed.course}">Dual Major, Economics and English &mdash; <strong>4.0 GPA</strong> </h3>
+							<h3><span th:text="${ed.startDate}">Start Date</span>&nbsp;<span th:text="${ed.endDate}">End Date</span></h3>
 						</div>
 					</div><!--// .yui-gf -->
 
