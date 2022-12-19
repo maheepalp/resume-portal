@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -98,18 +99,31 @@ public class HomeController {
 
         UserProfile profile = profileOpt.get();
 
+        System.out.println(profile);
+
         model.addAttribute("userProfile", profile);  
-        model.addAttribute("userId", userName);  
+        model.addAttribute("userName", userName);  
         System.out.println("userProfile loaded from DB and set to model attribute, so that its avbl in template for editing");
         return "profile-edit";
 
     }
 
     @PostMapping("/edit")
-    public String save(Model model, Principal principal){
-        String username = principal.getName();  
+    public String save(Model model, Principal principal, @ModelAttribute UserProfile toBeSaved){
+        String userName = principal.getName();  
 
-        return "redirect:/view/username";
+        Optional<UserProfile> profileOpt = userProfileRepository.findByUserName(userName);
+        profileOpt.orElseThrow( () -> new RuntimeException("profile not found "+userName));
+        UserProfile orgObj = profileOpt.get();
+
+        toBeSaved.setId(orgObj.getId());
+        toBeSaved.setUserName(orgObj.getUserName());
+        toBeSaved.setTheme(orgObj.getTheme());
+
+        userProfileRepository.save(toBeSaved);
+        System.out.println("SAVED");
+
+        return "redirect:/view/"+userName;
 
     }    
 
@@ -123,7 +137,7 @@ public class HomeController {
         model.addAttribute("userId", aaa);
         model.addAttribute("userProfile", profile);
         
-        System.out.println(profile.getJobs());
+        System.out.println("returning "+"./"+profile.getTheme()+"/index");
         
         return "./"+profile.getTheme()+"/index";
 

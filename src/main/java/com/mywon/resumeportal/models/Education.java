@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table
 public class Education {
@@ -17,7 +19,9 @@ public class Education {
 
     private String college;
     private String course;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")    
     private LocalDate startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")    
     private LocalDate endDate;
 
 
