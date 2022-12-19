@@ -62,6 +62,11 @@ Look for @GetMapping syntax "/view{userId}"
 		 @PathVariable("userId") String aaa
 spring model, is param that can be passed to any getMapping function. Which can hold attributes and be presented on GUI		 
 
+=========
+
+typically all the htmls are under templates folder
+
+
 
 
 

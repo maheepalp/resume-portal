@@ -1,5 +1,6 @@
 package com.mywon.resumeportal;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.mywon.resumeportal.models.Education;
 import com.mywon.resumeportal.models.Job;
@@ -88,10 +90,28 @@ public class HomeController {
     }
 
     @GetMapping("/edit")
-    public String edit(){
-        return "Edit!!";
+    public String edit(Model model, Principal principal){
+        String userName = principal.getName();  //NOTE name gets you username. These are from security tables user or user_table. Real name will be part of profile
+
+        Optional<UserProfile> profileOpt = userProfileRepository.findByUserName(userName);
+        profileOpt.orElseThrow( () -> new RuntimeException("profile not found "+userName));
+
+        UserProfile profile = profileOpt.get();
+
+        model.addAttribute("userProfile", profile);  
+        model.addAttribute("userId", userName);  
+        System.out.println("userProfile loaded from DB and set to model attribute, so that its avbl in template for editing");
+        return "profile-edit";
 
     }
+
+    @PostMapping("/edit")
+    public String save(Model model, Principal principal){
+        String username = principal.getName();  
+
+        return "redirect:/view/username";
+
+    }    
 
     @GetMapping("/view/{userId}")
     public String view(@PathVariable("userId") String aaa, Model model){
