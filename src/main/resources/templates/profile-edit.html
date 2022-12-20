@@ -41,6 +41,7 @@
                         <th>Designation</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +50,7 @@
                         <td><input class="form-control" th:field="*{jobs[__${stat.index}__].designation}"></td>
                         <td><input type="date" class="form-control" th:field="*{jobs[__${stat.index}__].startDate}"></td>
                         <td><input type="date" class="form-control" th:field="*{jobs[__${stat.index}__].endDate}"></td>
-
+                        <td><a th:href="@{'./delete?type=job&index=' + ${stat.index}}">Delete</a></td>
                     </tr>  
                 </tbody>  
             </table>
@@ -63,6 +64,7 @@
                         <th>Course</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +73,7 @@
                         <td><input class="form-control" th:field="*{educations[__${stat.index}__].course}"></td>
                         <td><input type="date" class="form-control" th:field="*{educations[__${stat.index}__].startDate}"></td>
                         <td><input type="date" class="form-control" th:field="*{educations[__${stat.index}__].endDate}"></td>
-
+                        <td><a th:href="@{'./delete?type=education&index=' + ${stat.index}}">Delete</a></td>
                     </tr>  
                 </tbody>  
             </table>

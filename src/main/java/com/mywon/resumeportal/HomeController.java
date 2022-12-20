@@ -102,7 +102,7 @@ public class HomeController {
 
         if("job".equals(add)){
             profile.getJobs().add(new Job());
-        }else if("job".equals(add)){
+        }else if("education".equals(add)){
             profile.getEducations().add(new Education());
         }
 
@@ -112,6 +112,32 @@ public class HomeController {
         return "profile-edit";
 
     }
+
+    @GetMapping("/delete")
+    public String delete(Model model, Principal principal, @RequestParam String type, @RequestParam int index){
+        String userName = principal.getName();  //NOTE name gets you username. These are from security tables user or user_table. Real name will be part of profile
+
+        Optional<UserProfile> profileOpt = userProfileRepository.findByUserName(userName);
+        profileOpt.orElseThrow( () -> new RuntimeException("profile not found "+userName));
+
+        UserProfile profile = profileOpt.get();
+
+        if("job".equals(type)){
+            profile.getJobs().remove(index);
+        }else if("education".equals(type)){
+            profile.getEducations().remove(index);
+        }
+
+        model.addAttribute("userProfile", profile);  
+        model.addAttribute("userName", userName);  
+
+        userProfileRepository.save(profile);
+        
+        return "profile-edit";
+
+    }
+
+
 
     @PostMapping("/edit")
     public String save(Model model, Principal principal, @ModelAttribute UserProfile toBeSaved){
@@ -133,7 +159,14 @@ public class HomeController {
     }    
 
     @GetMapping("/view/{userId}")
-    public String view(@PathVariable("userId") String aaa, Model model){
+    public String view(Principal principal, @PathVariable("userId") String aaa, Model model){
+
+        if(principal != null && principal.getName() != ""){
+            boolean currentUserProfile = principal.getName().equals(aaa);
+            model.addAttribute("currentUserProfile", currentUserProfile);
+        }
+
+
         Optional<UserProfile> profileOpt = userProfileRepository.findByUserName(aaa);
         profileOpt.orElseThrow( () -> new RuntimeException("profile not found "+aaa));
 

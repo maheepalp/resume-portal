@@ -21,6 +21,7 @@
 			<div class="yui-gc">
 				<div class="yui-u first">
 					<h1><span th:text="${userProfile.firstName}">Maheepal</span>&nbsp;<span th:text="${userProfile.lastName}">Pullakhandam</span></h1>
+					<a th:if="${currentUserProfile}" href="/edit">Edit</a>
 					<h2><span th:text="${userProfile.designation}">Web Designer, Director</span></h2>
 				</div>
 
