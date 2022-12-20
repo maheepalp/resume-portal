@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mywon.resumeportal.models.Education;
 import com.mywon.resumeportal.models.Job;
@@ -91,7 +92,7 @@ public class HomeController {
     }
 
     @GetMapping("/edit")
-    public String edit(Model model, Principal principal){
+    public String edit(Model model, Principal principal, @RequestParam(required = false) String add){
         String userName = principal.getName();  //NOTE name gets you username. These are from security tables user or user_table. Real name will be part of profile
 
         Optional<UserProfile> profileOpt = userProfileRepository.findByUserName(userName);
@@ -99,7 +100,11 @@ public class HomeController {
 
         UserProfile profile = profileOpt.get();
 
-        System.out.println(profile);
+        if("job".equals(add)){
+            profile.getJobs().add(new Job());
+        }else if("job".equals(add)){
+            profile.getEducations().add(new Education());
+        }
 
         model.addAttribute("userProfile", profile);  
         model.addAttribute("userName", userName);  
